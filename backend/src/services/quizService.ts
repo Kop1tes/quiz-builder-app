@@ -1,8 +1,9 @@
 import type { Quiz } from "../types/quiz";
+import {prisma} from "../lib/prisma";
 
-const quizzes: Quiz[] = [];
+export const getQuizzes = async () => {
+    const quizzes = await prisma.quiz.findMany();
 
-export const getQuizzes = (): Quiz[] => {
     return quizzes;
 }
 
