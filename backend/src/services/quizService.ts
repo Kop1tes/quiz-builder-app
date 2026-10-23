@@ -1,5 +1,4 @@
-import type { Quiz } from "../types/quiz";
-import {prisma} from "../lib/prisma";
+import { prisma } from "../lib/prisma";
 
 export const getQuizzes = async () => {
     const quizzes = await prisma.quiz.findMany();
@@ -7,13 +6,24 @@ export const getQuizzes = async () => {
     return quizzes;
 }
 
-export const createQuiz = (title: string ): Quiz => {
-    const newQuiz: Quiz = {
-        id: crypto.randomUUID(),
-        title: title,
-    };
+type QuestionInput = {
+    text: string,
+    type: string,
+    options?: string[],
+}
 
-    quizzes.push(newQuiz);
+export const createQuiz = async (title: string, questions: QuestionInput[]) => {
+    const newQuiz = await prisma.quiz.create({
+        data: {
+            title,
+            questions: {
+                create: [
+                    {text: "Что такое TypeScript?", type:"text"},
+                ]
+            }
+        }
+    }
+    );
     
     return newQuiz;
 }
